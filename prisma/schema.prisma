@@ -7,9 +7,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model GameScore {
   id        String             @id @default(auto()) @map("_id") @db.ObjectId
   username  String
+  wpm       Int
 }
 
 

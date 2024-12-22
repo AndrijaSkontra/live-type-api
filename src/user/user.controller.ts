@@ -1,4 +1,4 @@
-import { Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post } from "@nestjs/common";
 import { UserService } from "./user.service";
 
 @Controller("user")
@@ -11,12 +11,13 @@ export class UserController {
   }
 
   @Post()
-  addUser() {
+  async addUser(@Body() { username, wpm }) {
     try {
-      this.userService.addUser();
-      return "Success";
-    } catch {
-      return "Fail";
+      console.log("ADDING USERNAME:", username);
+      await this.userService.addUser(username, wpm);
+      return `username: ${username}, wpm: ${wpm}. ADDED.`;
+    } catch (e) {
+      return "Fail" + e.message;
     }
   }
 }

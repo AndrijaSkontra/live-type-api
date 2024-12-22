@@ -9,10 +9,11 @@ export class UserService {
     return "Marko123";
   }
 
-  async addUser() {
-    this.prisma.user.create({
+  async addUser(username: string, wpm: number) {
+    await this.prisma.gameScore.create({
       data: {
-        username: "NoviUser" + Date.now(),
+        username: username,
+        wpm: wpm,
       },
     });
   }
