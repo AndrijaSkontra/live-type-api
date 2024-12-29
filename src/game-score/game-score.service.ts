@@ -5,7 +5,32 @@ import { PrismaService } from "src/prisma/prisma.service";
 export class GameScoreService {
   constructor(private prisma: PrismaService) {}
 
+  async addGameScore(username: string, wpm: number) {
+    await this.prisma.gameScore.create({
+      data: {
+        username: username,
+        wpm: wpm,
+      },
+    });
+  }
+
   async getGameScores() {
-    return await this.prisma.gameScore.findMany({});
+    const gameScores = await this.prisma.gameScore.aggregateRaw({
+      pipeline: [
+        {
+          $group: {
+            _id: "$username",
+            maxWpm: { $max: "$wpm" },
+          },
+        },
+        {
+          $sort: { maxWpm: -1 },
+        },
+        {
+          $limit: 30,
+        },
+      ],
+    });
+    return gameScores;
   }
 }
