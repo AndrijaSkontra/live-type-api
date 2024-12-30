@@ -4,9 +4,10 @@ import { AppService } from "./app.service";
 import { PrismaService } from "./prisma/prisma.service";
 import { GameScoreService } from "./game-score/game-score.service";
 import { GameScoreController } from "./game-score/game-score.controller";
+import { EventsModule } from "./events/events.module";
 
 @Module({
-  imports: [],
+  imports: [EventsModule],
   controllers: [AppController, GameScoreController],
   providers: [AppService, PrismaService, GameScoreService],
 })
